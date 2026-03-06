@@ -81,7 +81,6 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
   return (
     <motion.div
       className="fixed inset-0 z-50 flex items-center justify-center bg-ivory"
-      animate={phase === "done" ? { opacity: 0 } : { opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
