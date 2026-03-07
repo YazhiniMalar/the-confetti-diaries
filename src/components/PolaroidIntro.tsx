@@ -36,7 +36,7 @@ interface ConfettiPiece {
 
 const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
   const [visiblePhotos, setVisiblePhotos] = useState<number[]>([]);
-  const [phase, setPhase] = useState<"stacking" | "burst" | "reveal" | "done">("stacking");
+  const [phase, setPhase] = useState<"loading" | "stacking" | "burst" | "reveal" | "done">("loading");
   const [confetti, setConfetti] = useState<ConfettiPiece[]>([]);
 
   const generateConfetti = useCallback(() => {
@@ -55,7 +55,29 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
     return pieces;
   }, []);
 
+  // Preload all images before starting animation
   useEffect(() => {
+    let cancelled = false;
+    const preload = async () => {
+      await Promise.all(
+        photos.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = src;
+            })
+        )
+      );
+      if (!cancelled) setPhase("stacking");
+    };
+    preload();
+    return () => { cancelled = true; };
+  }, []);
+
+  useEffect(() => {
+    if (phase !== "stacking") return;
     let i = 0;
     const interval = setInterval(() => {
       if (i < photos.length) {
@@ -77,7 +99,7 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
       }
     }, 400);
     return () => clearInterval(interval);
-  }, [generateConfetti, onComplete]);
+  }, [phase, generateConfetti, onComplete]);
 
   if (phase === "done") return null;
 
@@ -87,6 +109,17 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
+      {/* Loading indicator */}
+      {phase === "loading" && (
+        <motion.p
+          className="text-sans text-sm tracking-widest text-muted-foreground"
+          animate={{ opacity: [0.3, 1, 0.3] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        >
+          Loading memories...
+        </motion.p>
+      )}
+
       {/* Stacking Polaroids */}
       <AnimatePresence>
         {phase === "stacking" &&
@@ -174,7 +207,7 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
           />
         ))}
 
-      {/* Brand Reveal - single line */}
+      {/* Brand Reveal */}
       <AnimatePresence>
         {phase === "reveal" && (
           <motion.div
