@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 import SparkleTrail from "@/components/SparkleTrail";
 import FloatingConfetti from "@/components/FloatingConfetti";
 import ParallaxWrapper from "@/components/ParallaxWrapper";
+import DecorOverlay from "@/components/DecorOverlay";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -31,6 +32,7 @@ const Index = () => {
         <>
           <SparkleTrail />
           <FloatingConfetti />
+          <DecorOverlay />
           <Navbar />
           <main>
             <HeroSection />
