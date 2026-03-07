@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 const testimonials = [
   {
     name: "Ananya & Rohan",
-    text: "The Confetti Diaries turned our wedding into a fairytale. Every detail was absolutely perfect — we still get compliments from our guests!",
+    text: "The Confeti Diaries turned our wedding into a fairytale. Every detail was absolutely perfect — we still get compliments from our guests!",
   },
   {
     name: "Charlotte & William",
