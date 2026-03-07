@@ -12,6 +12,7 @@ import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/Footer";
 import SparkleTrail from "@/components/SparkleTrail";
 import FloatingConfetti from "@/components/FloatingConfetti";
+import ParallaxWrapper from "@/components/ParallaxWrapper";
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -33,12 +34,22 @@ const Index = () => {
           <Navbar />
           <main>
             <HeroSection />
-            <AboutSection />
-            <WorksSection />
+            <ParallaxWrapper speed={0.2}>
+              <AboutSection />
+            </ParallaxWrapper>
+            <ParallaxWrapper speed={0.15}>
+              <WorksSection />
+            </ParallaxWrapper>
             <GallerySection />
-            <ServicesSection />
-            <TestimonialsSection />
-            <ContactSection />
+            <ParallaxWrapper speed={0.2}>
+              <ServicesSection />
+            </ParallaxWrapper>
+            <ParallaxWrapper speed={0.15}>
+              <TestimonialsSection />
+            </ParallaxWrapper>
+            <ParallaxWrapper speed={0.1}>
+              <ContactSection />
+            </ParallaxWrapper>
           </main>
           <Footer />
         </>

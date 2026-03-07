@@ -6,8 +6,12 @@ import wedding3 from "@/assets/wedding-3.jpg";
 import wedding4 from "@/assets/wedding-4.jpg";
 import wedding5 from "@/assets/wedding-5.jpg";
 import wedding6 from "@/assets/wedding-6.jpg";
+import wedding7 from "@/assets/wedding-7.jpg";
+import wedding8 from "@/assets/wedding-8.jpg";
+import wedding9 from "@/assets/wedding-9.jpg";
+import wedding10 from "@/assets/wedding-10.jpg";
 
-const photos = [wedding1, wedding2, wedding3, wedding4, wedding5, wedding6];
+const photos = [wedding1, wedding2, wedding3, wedding4, wedding5, wedding6, wedding7, wedding8, wedding9, wedding10];
 
 const CONFETTI_COLORS = [
   "hsl(345, 40%, 65%)",
@@ -52,7 +56,6 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
   }, []);
 
   useEffect(() => {
-    // Stack photos one by one
     let i = 0;
     const interval = setInterval(() => {
       if (i < photos.length) {
@@ -68,11 +71,11 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
             setTimeout(() => {
               setPhase("done");
               onComplete();
-            }, 3000);
-          }, 800);
-        }, 400);
+            }, 4000);
+          }, 1000);
+        }, 800);
       }
-    }, 250);
+    }, 400);
     return () => clearInterval(interval);
   }, [generateConfetti, onComplete]);
 
@@ -120,7 +123,7 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
           })}
       </AnimatePresence>
 
-      {/* Burst - photos fly out */}
+      {/* Burst */}
       {phase === "burst" &&
         visiblePhotos.map((index) => (
           <motion.div
@@ -171,7 +174,7 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
           />
         ))}
 
-      {/* Brand Reveal */}
+      {/* Brand Reveal - single line */}
       <AnimatePresence>
         {phase === "reveal" && (
           <motion.div
@@ -181,21 +184,13 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
             transition={{ duration: 1, ease: "easeOut" }}
           >
             <motion.h1
-              className="shimmer-text text-display text-5xl font-bold tracking-widest sm:text-7xl lg:text-8xl"
+              className="shimmer-text text-display text-4xl font-bold tracking-widest whitespace-nowrap sm:text-6xl lg:text-7xl"
               initial={{ letterSpacing: "0.5em", opacity: 0 }}
               animate={{ letterSpacing: "0.2em", opacity: 1 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
             >
-              THE CONFETI
+              THE CONFETI DIARIES
             </motion.h1>
-            <motion.p
-              className="text-display mt-2 text-2xl font-light tracking-[0.4em] text-foreground sm:text-3xl"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
-            >
-              DIARIES
-            </motion.p>
           </motion.div>
         )}
       </AnimatePresence>
