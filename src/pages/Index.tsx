@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { AnimatePresence } from "framer-motion";
+import { useState, useCallback, useRef } from "react";
+import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
 import PolaroidIntro from "@/components/PolaroidIntro";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
@@ -12,6 +12,18 @@ import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/Footer";
 import SparkleTrail from "@/components/SparkleTrail";
 import FloatingConfetti from "@/components/FloatingConfetti";
+
+const ParallaxSection = ({ children, speed = 0.1 }: { children: React.ReactNode; speed?: number }) => {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [speed * -100, speed * 100]);
+
+  return (
+    <motion.div ref={ref} style={{ y }}>
+      {children}
+    </motion.div>
+  );
+};
 
 const Index = () => {
   const [introComplete, setIntroComplete] = useState(false);
@@ -33,12 +45,24 @@ const Index = () => {
           <Navbar />
           <main>
             <HeroSection />
-            <AboutSection />
-            <WorksSection />
-            <GallerySection />
-            <ServicesSection />
-            <TestimonialsSection />
-            <ContactSection />
+            <ParallaxSection speed={0.05}>
+              <AboutSection />
+            </ParallaxSection>
+            <ParallaxSection speed={0.08}>
+              <WorksSection />
+            </ParallaxSection>
+            <ParallaxSection speed={0.04}>
+              <GallerySection />
+            </ParallaxSection>
+            <ParallaxSection speed={0.06}>
+              <ServicesSection />
+            </ParallaxSection>
+            <ParallaxSection speed={0.05}>
+              <TestimonialsSection />
+            </ParallaxSection>
+            <ParallaxSection speed={0.03}>
+              <ContactSection />
+            </ParallaxSection>
           </main>
           <Footer />
         </>

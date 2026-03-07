@@ -4,9 +4,12 @@ import backdrop from "@/assets/wedding-backdrop.jpg";
 const HeroSection = () => {
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+      <motion.div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
         style={{ backgroundImage: `url(${backdrop})` }}
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.5 }}
       />
       <div className="absolute inset-0 bg-ivory/70 backdrop-blur-sm" />
       <motion.div
@@ -15,12 +18,9 @@ const HeroSection = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, delay: 0.3 }}
       >
-        <h1 className="shimmer-text text-display text-5xl font-bold tracking-[0.15em] sm:text-7xl lg:text-8xl">
-          THE CONFETI
+        <h1 className="shimmer-text text-display text-4xl font-bold tracking-[0.1em] sm:text-6xl lg:text-7xl whitespace-nowrap">
+          THE CONFETI DIARIES
         </h1>
-        <p className="text-display mt-2 text-2xl font-light tracking-[0.4em] text-foreground sm:text-3xl">
-          DIARIES
-        </p>
         <motion.p
           className="text-sans mx-auto mt-8 max-w-md text-sm font-light tracking-wider text-muted-foreground sm:text-base"
           initial={{ opacity: 0 }}
