@@ -55,51 +55,76 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
     return pieces;
   }, []);
 
-  // Preload all images before starting animation
+  const [loadedPhotos, setLoadedPhotos] = useState<Set<number>>(new Set());
+
+  // Preload images progressively (start intro as soon as first image is ready)
   useEffect(() => {
     let cancelled = false;
-    const preload = async () => {
-      await Promise.all(
-        photos.map(
-          (src) =>
-            new Promise<void>((resolve) => {
-              const img = new Image();
-              img.onload = () => resolve();
-              img.onerror = () => resolve();
-              img.src = src;
-            })
-        )
-      );
-      if (!cancelled) setPhase("stacking");
+
+    photos.forEach((src, index) => {
+      const img = new Image();
+      img.onload = () => {
+        if (cancelled) return;
+        setLoadedPhotos((prev) => {
+          const next = new Set(prev);
+          next.add(index);
+          return next;
+        });
+      };
+      img.onerror = () => {
+        if (cancelled) return;
+        setLoadedPhotos((prev) => {
+          const next = new Set(prev);
+          next.add(index);
+          return next;
+        });
+      };
+      img.src = src;
+    });
+
+    return () => {
+      cancelled = true;
     };
-    preload();
-    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
+    if (phase === "loading" && loadedPhotos.size > 0) {
+      setPhase("stacking");
+    }
+  }, [phase, loadedPhotos]);
+
+  useEffect(() => {
     if (phase !== "stacking") return;
-    let i = 0;
-    const interval = setInterval(() => {
-      if (i < photos.length) {
-        setVisiblePhotos((prev) => [...prev, i]);
-        i++;
-      } else {
-        clearInterval(interval);
+
+    const nextIndex = visiblePhotos.length;
+
+    if (nextIndex >= photos.length) return;
+    if (!loadedPhotos.has(nextIndex)) return;
+
+    const timer = setTimeout(() => {
+      setVisiblePhotos((prev) => [...prev, nextIndex]);
+    }, 260);
+
+    return () => clearTimeout(timer);
+  }, [phase, visiblePhotos, loadedPhotos]);
+
+  useEffect(() => {
+    if (phase !== "stacking" || visiblePhotos.length < photos.length) return;
+
+    const burstTimer = setTimeout(() => {
+      setPhase("burst");
+      setConfetti(generateConfetti());
+      setTimeout(() => {
+        setPhase("reveal");
         setTimeout(() => {
-          setPhase("burst");
-          setConfetti(generateConfetti());
-          setTimeout(() => {
-            setPhase("reveal");
-            setTimeout(() => {
-              setPhase("done");
-              onComplete();
-            }, 4000);
-          }, 1000);
-        }, 800);
-      }
-    }, 400);
-    return () => clearInterval(interval);
-  }, [phase, generateConfetti, onComplete]);
+          setPhase("done");
+          onComplete();
+        }, 4000);
+      }, 1000);
+    }, 800);
+
+    return () => clearTimeout(burstTimer);
+  }, [phase, visiblePhotos.length, generateConfetti, onComplete]);
 
   if (phase === "done") return null;
 
