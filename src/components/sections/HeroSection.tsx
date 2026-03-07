@@ -16,7 +16,7 @@ const HeroSection = () => {
         transition={{ duration: 1.2, delay: 0.3 }}
       >
         <h1 className="shimmer-text text-display text-5xl font-bold tracking-[0.15em] sm:text-7xl lg:text-8xl">
-          THE CONFETI
+          THE CONFETTI
         </h1>
         <p className="text-display mt-2 text-2xl font-light tracking-[0.4em] text-foreground sm:text-3xl">
           DIARIES

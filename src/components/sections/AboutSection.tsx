@@ -18,7 +18,7 @@ const AboutSection = () => {
             Our Story
           </p>
           <h2 className="text-display mt-4 text-4xl font-semibold text-foreground sm:text-5xl">
-            About The Confeti Diaries
+            About The Confetti Diaries
           </h2>
           <div className="mx-auto mt-6 h-px w-24 gradient-gold" />
         </motion.div>
@@ -29,7 +29,7 @@ const AboutSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           We believe every love story deserves to be celebrated in its most
-          extraordinary form. At The Confeti Diaries, we transform your
+          extraordinary form. At The Confetti Diaries, we transform your
           wedding dreams into breathtaking realities — blending elegance with
           joyful celebration, timeless beauty with unforgettable moments.
         </motion.p>

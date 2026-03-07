@@ -35,7 +35,7 @@ const ContactSection = () => {
         >
           <div className="flex items-center gap-3 text-secondary-foreground">
             <Mail className="h-5 w-5 text-primary" />
-            <span className="text-sans text-sm tracking-wider">hello@confetidiaries.com</span>
+            <span className="text-sans text-sm tracking-wider">hello@confettidiaries.com</span>
           </div>
           <div className="flex items-center gap-3 text-secondary-foreground">
             <Phone className="h-5 w-5 text-primary" />

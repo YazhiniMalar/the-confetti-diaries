@@ -189,7 +189,7 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
               animate={{ letterSpacing: "0.2em", opacity: 1 }}
               transition={{ duration: 1.5, ease: "easeOut" }}
             >
-              THE CONFETI DIARIES
+              THE CONFETTI DIARIES
             </motion.h1>
           </motion.div>
         )}
