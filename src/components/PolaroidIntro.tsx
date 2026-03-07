@@ -55,76 +55,51 @@ const PolaroidIntro = ({ onComplete }: { onComplete: () => void }) => {
     return pieces;
   }, []);
 
-  const [loadedPhotos, setLoadedPhotos] = useState<Set<number>>(new Set());
-
-  // Preload images progressively (start intro as soon as first image is ready)
+  // Preload all images before starting animation
   useEffect(() => {
     let cancelled = false;
-
-    photos.forEach((src, index) => {
-      const img = new Image();
-      img.onload = () => {
-        if (cancelled) return;
-        setLoadedPhotos((prev) => {
-          const next = new Set(prev);
-          next.add(index);
-          return next;
-        });
-      };
-      img.onerror = () => {
-        if (cancelled) return;
-        setLoadedPhotos((prev) => {
-          const next = new Set(prev);
-          next.add(index);
-          return next;
-        });
-      };
-      img.src = src;
-    });
-
-    return () => {
-      cancelled = true;
+    const preload = async () => {
+      await Promise.all(
+        photos.map(
+          (src) =>
+            new Promise<void>((resolve) => {
+              const img = new Image();
+              img.onload = () => resolve();
+              img.onerror = () => resolve();
+              img.src = src;
+            })
+        )
+      );
+      if (!cancelled) setPhase("stacking");
     };
+    preload();
+    return () => { cancelled = true; };
   }, []);
 
   useEffect(() => {
-    if (phase === "loading" && loadedPhotos.size > 0) {
-      setPhase("stacking");
-    }
-  }, [phase, loadedPhotos]);
-
-  useEffect(() => {
     if (phase !== "stacking") return;
-
-    const nextIndex = visiblePhotos.length;
-
-    if (nextIndex >= photos.length) return;
-    if (!loadedPhotos.has(nextIndex)) return;
-
-    const timer = setTimeout(() => {
-      setVisiblePhotos((prev) => [...prev, nextIndex]);
-    }, 260);
-
-    return () => clearTimeout(timer);
-  }, [phase, visiblePhotos, loadedPhotos]);
-
-  useEffect(() => {
-    if (phase !== "stacking" || visiblePhotos.length < photos.length) return;
-
-    const burstTimer = setTimeout(() => {
-      setPhase("burst");
-      setConfetti(generateConfetti());
-      setTimeout(() => {
-        setPhase("reveal");
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < photos.length) {
+        setVisiblePhotos((prev) => [...prev, i]);
+        i++;
+      } else {
+        clearInterval(interval);
         setTimeout(() => {
-          setPhase("done");
-          onComplete();
-        }, 4000);
-      }, 1000);
-    }, 800);
-
-    return () => clearTimeout(burstTimer);
-  }, [phase, visiblePhotos.length, generateConfetti, onComplete]);
+          setPhase("burst");
+          setConfetti(generateConfetti());
+          setTimeout(() => {
+            setPhase("reveal");
+            setTimeout(() => {
+              setPhase("done");
+              onComplete();
+            }, 4000);
+          }, 1000);
+        }, 800);
+      }
+    }, 400);
+    return () => clearInterval(interval);
+  }, [phase, generateConfetti, onComplete]);
 
   if (phase === "done") return null;
 
