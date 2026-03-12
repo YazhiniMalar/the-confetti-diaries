@@ -1,48 +1,149 @@
-import { motion } from "framer-motion";
-import backdrop from "@/assets/wedding-backdrop.jpg";
+import { useState, useEffect, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import wedding1 from "@/assets/wedding-1.jpg";
+import wedding2 from "@/assets/wedding-2.jpg";
+import wedding3 from "@/assets/wedding-3.jpg";
+import wedding4 from "@/assets/wedding-4.jpg";
+import wedding5 from "@/assets/wedding-5.jpg";
+import wedding6 from "@/assets/wedding-6.jpg";
+
+const slides = [
+  { img: wedding1, title: "Timeless Moments" },
+  { img: wedding2, title: "Elegant Celebrations" },
+  { img: wedding3, title: "Garden Dreams" },
+  { img: wedding4, title: "Grand Receptions" },
+  { img: wedding5, title: "Romantic Evenings" },
+  { img: wedding6, title: "Royal Affairs" },
+];
 
 const HeroSection = () => {
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  const goTo = useCallback(
+    (index: number) => {
+      setDirection(index > current ? 1 : -1);
+      setCurrent(index);
+    },
+    [current]
+  );
+
+  const next = useCallback(() => {
+    setDirection(1);
+    setCurrent((p) => (p + 1) % slides.length);
+  }, []);
+
+  const prev = useCallback(() => {
+    setDirection(-1);
+    setCurrent((p) => (p - 1 + slides.length) % slides.length);
+  }, []);
+
+  // Auto-play
+  useEffect(() => {
+    const timer = setInterval(next, 4000);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
+  };
+
   return (
-    <section className="relative flex min-h-screen items-center justify-center overflow-hidden">
-      <motion.div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat will-change-transform"
-        style={{ backgroundImage: `url(${backdrop})` }}
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1.5 }}
-      />
-      <div className="absolute inset-0 bg-ivory/70 backdrop-blur-sm" />
-      <motion.div
-        className="relative z-10 text-center px-4"
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1.2, delay: 0.3 }}
-      >
-        <h1 className="shimmer-text text-display text-4xl font-bold tracking-[0.1em] sm:text-6xl lg:text-7xl whitespace-nowrap">
+    <section className="relative h-screen w-full overflow-hidden bg-foreground">
+      {/* Main Slide */}
+      <AnimatePresence custom={direction} mode="popLayout">
+        <motion.div
+          key={current}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.8, ease: [0.42, 0, 0.2, 1] }}
+          className="absolute inset-0"
+        >
+          <img
+            src={slides[current].img}
+            alt={slides[current].title}
+            className="h-full w-full object-cover"
+          />
+          <div className="absolute inset-0 bg-foreground/40" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Center Content */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center px-6">
+        <AnimatePresence mode="wait">
+          <motion.h2
+            key={current}
+            className="text-display text-3xl font-semibold text-primary-foreground sm:text-5xl lg:text-6xl tracking-wide"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -30 }}
+            transition={{ duration: 0.5 }}
+          >
+            {slides[current].title}
+          </motion.h2>
+        </AnimatePresence>
+        <h1 className="shimmer-text text-display mt-4 text-lg font-bold tracking-[0.15em] sm:text-2xl whitespace-nowrap"
+          style={{
+            background: "linear-gradient(90deg, hsl(var(--primary-foreground)) 0%, hsl(var(--gold)) 50%, hsl(var(--primary-foreground)) 100%)",
+            backgroundSize: "200% auto",
+            WebkitBackgroundClip: "text",
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            animation: "shimmer 4s linear infinite",
+          }}
+        >
           THE CONFETI DIARIES
         </h1>
-        <motion.p
-          className="text-sans mx-auto mt-8 max-w-md text-sm font-light tracking-wider text-muted-foreground sm:text-base"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1 }}
-        >
-          Crafting timeless celebrations & unforgettable memories
-        </motion.p>
-        <motion.div
-          className="mt-10"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.3 }}
-        >
-          <a
-            href="#about"
-            className="gradient-gold text-sans inline-block rounded-full px-8 py-3 text-sm font-medium tracking-widest text-primary-foreground shadow-glow transition-transform hover:scale-105"
+      </div>
+
+      {/* Nav Arrows */}
+      <button
+        onClick={prev}
+        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/20 p-2 text-primary-foreground backdrop-blur-sm transition-colors hover:bg-background/40"
+        aria-label="Previous slide"
+      >
+        <ChevronLeft className="h-6 w-6" />
+      </button>
+      <button
+        onClick={next}
+        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-background/20 p-2 text-primary-foreground backdrop-blur-sm transition-colors hover:bg-background/40"
+        aria-label="Next slide"
+      >
+        <ChevronRight className="h-6 w-6" />
+      </button>
+
+      {/* Counter */}
+      <div className="absolute bottom-28 left-1/2 z-20 -translate-x-1/2 text-sans text-sm text-primary-foreground/80 tracking-widest">
+        {String(current + 1).padStart(2, "0")} — {String(slides.length).padStart(2, "0")}
+      </div>
+
+      {/* Thumbnail Strip */}
+      <div className="absolute bottom-6 left-1/2 z-20 -translate-x-1/2 flex gap-2">
+        {slides.map((slide, i) => (
+          <button
+            key={i}
+            onClick={() => goTo(i)}
+            className={`overflow-hidden rounded-md transition-all duration-300 border-2 ${
+              i === current
+                ? "border-primary-foreground w-16 h-12 sm:w-20 sm:h-14 scale-105"
+                : "border-transparent w-12 h-9 sm:w-16 sm:h-11 opacity-60 hover:opacity-90"
+            }`}
+            aria-label={`Go to slide ${i + 1}`}
           >
-            EXPLORE OUR STORY
-          </a>
-        </motion.div>
-      </motion.div>
+            <img
+              src={slide.img}
+              alt={slide.title}
+              className="h-full w-full object-cover"
+            />
+          </button>
+        ))}
+      </div>
     </section>
   );
 };
