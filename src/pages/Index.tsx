@@ -1,6 +1,5 @@
-import { useState, useCallback, useRef } from "react";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
-import PolaroidIntro from "@/components/PolaroidIntro";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
@@ -26,47 +25,33 @@ const ParallaxSection = ({ children, speed = 0.1 }: { children: React.ReactNode;
 };
 
 const Index = () => {
-  const [introComplete, setIntroComplete] = useState(false);
-
-  const handleIntroComplete = useCallback(() => {
-    setIntroComplete(true);
-  }, []);
-
   return (
     <>
-      <AnimatePresence>
-        {!introComplete && <PolaroidIntro onComplete={handleIntroComplete} />}
-      </AnimatePresence>
-
-      {introComplete && (
-        <>
-          <SparkleTrail />
-          <FloatingConfetti />
-          <Navbar />
-          <main>
-            <HeroSection />
-            <ParallaxSection speed={0.05}>
-              <AboutSection />
-            </ParallaxSection>
-            <ParallaxSection speed={0.08}>
-              <WorksSection />
-            </ParallaxSection>
-            <ParallaxSection speed={0.04}>
-              <GallerySection />
-            </ParallaxSection>
-            <ParallaxSection speed={0.06}>
-              <ServicesSection />
-            </ParallaxSection>
-            <ParallaxSection speed={0.05}>
-              <TestimonialsSection />
-            </ParallaxSection>
-            <ParallaxSection speed={0.03}>
-              <ContactSection />
-            </ParallaxSection>
-          </main>
-          <Footer />
-        </>
-      )}
+      <SparkleTrail />
+      <FloatingConfetti />
+      <Navbar />
+      <main>
+        <HeroSection />
+        <ParallaxSection speed={0.05}>
+          <AboutSection />
+        </ParallaxSection>
+        <ParallaxSection speed={0.08}>
+          <WorksSection />
+        </ParallaxSection>
+        <ParallaxSection speed={0.04}>
+          <GallerySection />
+        </ParallaxSection>
+        <ParallaxSection speed={0.06}>
+          <ServicesSection />
+        </ParallaxSection>
+        <ParallaxSection speed={0.05}>
+          <TestimonialsSection />
+        </ParallaxSection>
+        <ParallaxSection speed={0.03}>
+          <ContactSection />
+        </ParallaxSection>
+      </main>
+      <Footer />
     </>
   );
 };
