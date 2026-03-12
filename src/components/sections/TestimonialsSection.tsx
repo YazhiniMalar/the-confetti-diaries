@@ -6,7 +6,7 @@ import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 const testimonials = [
   {
     name: "Ananya & Rohan",
-    text: "The Confeti Diaries turned our wedding into a fairytale. Every detail was absolutely perfect — we still get compliments from our guests!",
+    text: "The Confetti Diaries turned our wedding into a fairytale. Every detail was absolutely perfect — we still get compliments from our guests!",
   },
   {
     name: "Charlotte & William",
@@ -24,29 +24,39 @@ const testimonials = [
     name: "Priya & Arjun",
     text: "A truly world-class team. They handled every element with grace and made our celebration feel effortless and spectacular.",
   },
+  {
+    name: "Lara & Ethan",
+    text: "Every moment was curated with such love and care. Our guests are still talking about how beautiful everything was.",
+  },
 ];
+
+const CARDS_PER_VIEW = 3;
+const totalPages = Math.ceil(testimonials.length / CARDS_PER_VIEW);
 
 const TestimonialsSection = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [current, setCurrent] = useState(0);
+  const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
 
   const next = () => {
     setDirection(1);
-    setCurrent((p) => (p + 1) % testimonials.length);
+    setPage((p) => (p + 1) % totalPages);
   };
 
   const prev = () => {
     setDirection(-1);
-    setCurrent((p) => (p - 1 + testimonials.length) % testimonials.length);
+    setPage((p) => (p - 1 + totalPages) % totalPages);
   };
 
-  const t = testimonials[current];
+  const currentCards = testimonials.slice(
+    page * CARDS_PER_VIEW,
+    page * CARDS_PER_VIEW + CARDS_PER_VIEW
+  );
 
   return (
     <section id="testimonials" className="py-24 sm:py-32 bg-blush">
-      <div className="container mx-auto max-w-3xl px-6" ref={ref}>
+      <div className="container mx-auto max-w-6xl px-6" ref={ref}>
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 50 }}
@@ -63,27 +73,35 @@ const TestimonialsSection = () => {
         </motion.div>
 
         <div className="mt-16 relative">
-          <div className="rounded-xl bg-background/70 p-10 sm:p-14 shadow-romantic backdrop-blur-sm min-h-[220px] flex flex-col items-center justify-center text-center">
+          <div className="overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={current}
+                key={page}
                 custom={direction}
-                initial={{ opacity: 0, x: direction > 0 ? 60 : -60 }}
+                initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
                 animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: direction > 0 ? -60 : 60 }}
+                exit={{ opacity: 0, x: direction > 0 ? -80 : 80 }}
                 transition={{ duration: 0.4 }}
+                className="grid grid-cols-1 gap-6 sm:grid-cols-3"
               >
-                <div className="flex justify-center gap-1">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="h-4 w-4 fill-gold text-gold" />
-                  ))}
-                </div>
-                <p className="text-body mt-6 text-lg italic leading-relaxed text-secondary-foreground sm:text-xl">
-                  "{t.text}"
-                </p>
-                <p className="text-sans mt-8 text-xs font-semibold tracking-widest text-primary uppercase">
-                  — {t.name}
-                </p>
+                {currentCards.map((t, i) => (
+                  <div
+                    key={t.name}
+                    className="rounded-xl bg-background/70 p-8 shadow-romantic backdrop-blur-sm flex flex-col items-center text-center"
+                  >
+                    <div className="flex justify-center gap-1">
+                      {[...Array(5)].map((_, j) => (
+                        <Star key={j} className="h-4 w-4 fill-gold text-gold" />
+                      ))}
+                    </div>
+                    <p className="text-body mt-5 text-sm italic leading-relaxed text-secondary-foreground sm:text-base">
+                      "{t.text}"
+                    </p>
+                    <p className="text-sans mt-6 text-xs font-semibold tracking-widest text-primary uppercase">
+                      — {t.name}
+                    </p>
+                  </div>
+                ))}
               </motion.div>
             </AnimatePresence>
           </div>
@@ -92,31 +110,31 @@ const TestimonialsSection = () => {
           <button
             onClick={prev}
             className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-6 rounded-full bg-background p-2 shadow-romantic text-foreground transition-colors hover:bg-muted"
-            aria-label="Previous testimonial"
+            aria-label="Previous testimonials"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={next}
             className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-6 rounded-full bg-background p-2 shadow-romantic text-foreground transition-colors hover:bg-muted"
-            aria-label="Next testimonial"
+            aria-label="Next testimonials"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
 
           {/* Dots */}
           <div className="mt-8 flex justify-center gap-2">
-            {testimonials.map((_, i) => (
+            {Array.from({ length: totalPages }).map((_, i) => (
               <button
                 key={i}
                 onClick={() => {
-                  setDirection(i > current ? 1 : -1);
-                  setCurrent(i);
+                  setDirection(i > page ? 1 : -1);
+                  setPage(i);
                 }}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  i === current ? "w-6 bg-primary" : "w-2 bg-muted-foreground/30"
+                  i === page ? "w-6 bg-primary" : "w-2 bg-muted-foreground/30"
                 }`}
-                aria-label={`Go to testimonial ${i + 1}`}
+                aria-label={`Go to page ${i + 1}`}
               />
             ))}
           </div>

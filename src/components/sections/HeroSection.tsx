@@ -62,7 +62,7 @@ const HeroSection = () => {
           initial="enter"
           animate="center"
           exit="exit"
-          transition={{ duration: 0.8, ease: [0.42, 0, 0.2, 1] }}
+          transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
           className="absolute inset-0"
         >
           <img
@@ -98,7 +98,7 @@ const HeroSection = () => {
             animation: "shimmer 4s linear infinite",
           }}
         >
-          THE CONFETI DIARIES
+          THE CONFETTI DIARIES
         </h1>
       </div>
 

@@ -5,7 +5,6 @@ import { Link, useLocation } from "react-router-dom";
 
 const links = [
   { label: "About", href: "/#about" },
-  { label: "Works", href: "/#works" },
   { label: "Captured Moments", href: "/portfolio" },
   { label: "Gallery", href: "/#gallery" },
   { label: "Services", href: "/#services" },
@@ -28,8 +27,8 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-ivory/80 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <Link to="/" className="text-display text-lg font-bold tracking-[0.15em] text-foreground">
-          THE CONFETI DIARIES
+        <Link to="/" className="text-display text-lg font-bold tracking-[0.15em] text-foreground mr-12">
+          THE CONFETTI DIARIES
         </Link>
         {/* Desktop */}
         <div className="hidden gap-8 md:flex">
