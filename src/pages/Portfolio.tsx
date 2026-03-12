@@ -53,7 +53,7 @@ const Portfolio = () => {
               Our Work
             </p>
             <h1 className="text-display mt-4 text-4xl font-semibold text-foreground sm:text-5xl">
-              Portfolio
+              Captured Moments
             </h1>
             <div className="mx-auto mt-6 h-px w-24 gradient-gold" />
             <p className="text-body mt-6 text-lg text-muted-foreground max-w-xl mx-auto">

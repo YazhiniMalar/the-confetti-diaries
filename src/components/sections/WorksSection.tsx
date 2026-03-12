@@ -26,7 +26,7 @@ const WorksSection = () => {
           transition={{ duration: 0.8 }}
         >
           <p className="text-sans text-xs font-medium tracking-[0.3em] text-primary uppercase">
-            Portfolio
+            Captured Moments
           </p>
           <h2 className="text-display mt-4 text-4xl font-semibold text-foreground sm:text-5xl">
             Our Works
