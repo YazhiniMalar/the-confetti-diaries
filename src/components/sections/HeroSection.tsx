@@ -98,7 +98,7 @@ const HeroSection = () => {
             animation: "shimmer 4s linear infinite",
           }}
         >
-          THE CONFETI DIARIES
+          THE CONFETTI DIARIES
         </h1>
       </div>
 

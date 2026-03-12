@@ -29,7 +29,7 @@ const AboutSection = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           We believe every love story deserves to be celebrated in its most
-          extraordinary form. At The Confeti Diaries, we transform your
+          extraordinary form. At The Confetti Diaries, we transform your
           wedding dreams into breathtaking realities — blending elegance with
           joyful celebration, timeless beauty with unforgettable moments.
         </motion.p>
