@@ -1,5 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import wedding1 from "@/assets/wedding-1.jpg";
 import wedding2 from "@/assets/wedding-2.jpg";
 import wedding3 from "@/assets/wedding-3.jpg";
