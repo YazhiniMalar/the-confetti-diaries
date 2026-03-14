@@ -1,5 +1,7 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import wedding1 from "@/assets/wedding-1.jpg";
 import wedding2 from "@/assets/wedding-2.jpg";
 import wedding3 from "@/assets/wedding-3.jpg";
@@ -60,6 +62,21 @@ const GallerySection = () => {
         <CarouselRow images={topRow} direction="left" />
         <CarouselRow images={bottomRow} direction="right" />
       </div>
+
+      <motion.div
+        className="mt-12 text-center"
+        initial={{ opacity: 0 }}
+        animate={isInView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.6, delay: 0.6 }}
+      >
+        <Link
+          to="/portfolio"
+          className="gradient-gold text-sans inline-flex items-center gap-2 rounded-full px-8 py-3 text-sm font-medium tracking-widest text-primary-foreground shadow-glow transition-transform hover:scale-105"
+        >
+          VIEW ALL
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </motion.div>
     </section>
   );
 };

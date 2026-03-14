@@ -3,7 +3,6 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
 import AboutSection from "@/components/sections/AboutSection";
-import WorksSection from "@/components/sections/WorksSection";
 import GallerySection from "@/components/sections/GallerySection";
 import ServicesSection from "@/components/sections/ServicesSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
@@ -34,9 +33,6 @@ const Index = () => {
         <HeroSection />
         <ParallaxSection speed={0.05}>
           <AboutSection />
-        </ParallaxSection>
-        <ParallaxSection speed={0.08}>
-          <WorksSection />
         </ParallaxSection>
         <ParallaxSection speed={0.04}>
           <GallerySection />
