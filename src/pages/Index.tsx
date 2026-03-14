@@ -34,9 +34,6 @@ const Index = () => {
         <ParallaxSection speed={0.05}>
           <AboutSection />
         </ParallaxSection>
-        <ParallaxSection speed={0.08}>
-          <WorksSection />
-        </ParallaxSection>
         <ParallaxSection speed={0.04}>
           <GallerySection />
         </ParallaxSection>
