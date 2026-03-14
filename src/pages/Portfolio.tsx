@@ -1,32 +1,17 @@
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SparkleTrail from "@/components/SparkleTrail";
-import wedding1 from "@/assets/wedding-1.jpg";
-import wedding2 from "@/assets/wedding-2.jpg";
-import wedding3 from "@/assets/wedding-3.jpg";
-import wedding4 from "@/assets/wedding-4.jpg";
-import wedding5 from "@/assets/wedding-5.jpg";
-import wedding6 from "@/assets/wedding-6.jpg";
-
-const portfolioItems = [
-  { img: wedding1, title: "Sarah & James", category: "Wedding", height: "h-72" },
-  { img: wedding2, title: "Elena & Marco", category: "Reception", height: "h-96" },
-  { img: wedding3, title: "Priya & Arjun", category: "Ceremony", height: "h-80" },
-  { img: wedding4, title: "Lily & Thomas", category: "Engagement", height: "h-64" },
-  { img: wedding5, title: "Mei & Daniel", category: "Wedding", height: "h-96" },
-  { img: wedding6, title: "Charlotte & William", category: "Reception", height: "h-72" },
-  { img: wedding1, title: "Ava & Noah", category: "Ceremony", height: "h-80" },
-  { img: wedding3, title: "Sofia & Liam", category: "Destination", height: "h-96" },
-  { img: wedding5, title: "Zara & Ethan", category: "Engagement", height: "h-64" },
-  { img: wedding2, title: "Olivia & Lucas", category: "Wedding", height: "h-80" },
-  { img: wedding4, title: "Mia & Sebastian", category: "Reception", height: "h-96" },
-  { img: wedding6, title: "Isabella & Henry", category: "Ceremony", height: "h-72" },
-];
+import { portfolioItems } from "@/data/portfolioData";
 
 const Portfolio = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <SparkleTrail />
@@ -64,28 +49,32 @@ const Portfolio = () => {
           {/* Pinterest / Masonry Grid */}
           <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
             {portfolioItems.map((item, i) => (
-              <motion.div
+              <Link
                 key={`${item.title}-${i}`}
-                className="break-inside-avoid group relative overflow-hidden rounded-lg shadow-romantic"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
+                to={`/portfolio/${item.id}`}
+                className="break-inside-avoid group relative overflow-hidden rounded-lg shadow-romantic block"
               >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${item.height}`}
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-foreground/70 to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
-                  <span className="text-sans text-[10px] font-medium tracking-[0.2em] text-primary-foreground/70 uppercase">
-                    {item.category}
-                  </span>
-                  <h3 className="text-display text-lg font-semibold text-primary-foreground mt-1">
-                    {item.title}
-                  </h3>
-                </div>
-              </motion.div>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.08 }}
+                >
+                  <img
+                    src={item.img}
+                    alt={item.title}
+                    className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${item.height}`}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-foreground/70 to-transparent p-6 opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                    <span className="text-sans text-[10px] font-medium tracking-[0.2em] text-primary-foreground/70 uppercase">
+                      {item.category}
+                    </span>
+                    <h3 className="text-display text-lg font-semibold text-primary-foreground mt-1">
+                      {item.title}
+                    </h3>
+                  </div>
+                </motion.div>
+              </Link>
             ))}
           </div>
         </div>
