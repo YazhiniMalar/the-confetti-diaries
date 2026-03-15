@@ -1,15 +1,17 @@
 import { useParams, Link } from "react-router-dom";
-import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import SparkleTrail from "@/components/SparkleTrail";
 import { portfolioItems } from "@/data/portfolioData";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const EventAlbum = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const event = portfolioItems.find((item) => item.id === eventId);
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(0);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -32,6 +34,22 @@ const EventAlbum = () => {
     );
   }
 
+  const total = event.album.length;
+
+  const goTo = (next: number) => {
+    setDirection(next > current ? 1 : -1);
+    setCurrent(next);
+  };
+
+  const prev = () => goTo(current === 0 ? total - 1 : current - 1);
+  const next = () => goTo(current === total - 1 ? 0 : current + 1);
+
+  const variants = {
+    enter: (d: number) => ({ x: d > 0 ? "100%" : "-100%", opacity: 0 }),
+    center: { x: 0, opacity: 1 },
+    exit: (d: number) => ({ x: d > 0 ? "-100%" : "100%", opacity: 0 }),
+  };
+
   return (
     <>
       <SparkleTrail />
@@ -49,7 +67,7 @@ const EventAlbum = () => {
           </div>
 
           <motion.div
-            className="text-center mb-16"
+            className="text-center mb-10"
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
@@ -63,23 +81,55 @@ const EventAlbum = () => {
             <div className="mx-auto mt-6 h-px w-24 gradient-gold" />
           </motion.div>
 
-          {/* Album Grid */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+          {/* Full-view Carousel */}
+          <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden bg-muted shadow-romantic">
+            <AnimatePresence initial={false} custom={direction} mode="popLayout">
+              <motion.img
+                key={current}
+                src={event.album[current]}
+                alt={`${event.title} - Photo ${current + 1}`}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </AnimatePresence>
+
+            {/* Navigation arrows */}
+            <button
+              onClick={prev}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors shadow-md"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+            <button
+              onClick={next}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-10 h-10 w-10 rounded-full bg-background/70 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-background transition-colors shadow-md"
+            >
+              <ChevronRight className="h-5 w-5" />
+            </button>
+
+            {/* Counter */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 bg-background/70 backdrop-blur-sm rounded-full px-4 py-1.5 text-sans text-xs font-medium tracking-widest text-foreground">
+              {current + 1} / {total}
+            </div>
+          </div>
+
+          {/* Thumbnail strip */}
+          <div className="mt-6 flex gap-2 justify-center flex-wrap">
             {event.album.map((img, i) => (
-              <motion.div
+              <button
                 key={i}
-                className="break-inside-avoid overflow-hidden rounded-lg shadow-romantic"
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                onClick={() => goTo(i)}
+                className={`w-16 h-16 rounded-md overflow-hidden border-2 transition-all ${
+                  i === current ? "border-primary scale-105" : "border-transparent opacity-60 hover:opacity-100"
+                }`}
               >
-                <img
-                  src={img}
-                  alt={`${event.title} - Photo ${i + 1}`}
-                  className="w-full object-cover"
-                  loading="lazy"
-                />
-              </motion.div>
+                <img src={img} alt={`Thumbnail ${i + 1}`} className="w-full h-full object-cover" />
+              </button>
             ))}
           </div>
         </div>
