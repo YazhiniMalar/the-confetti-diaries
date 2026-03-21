@@ -9,7 +9,6 @@ import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/Footer";
 
-
 const ParallaxSection = ({ children, speed = 0.1 }: { children: React.ReactNode; speed?: number }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
@@ -25,8 +24,6 @@ const ParallaxSection = ({ children, speed = 0.1 }: { children: React.ReactNode;
 const Index = () => {
   return (
     <>
-      <SparkleTrail />
-      <FloatingConfetti />
       <Navbar />
       <main>
         <HeroSection />
