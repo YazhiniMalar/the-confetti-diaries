@@ -4,11 +4,12 @@ import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
 const links = [
-  { label: "About", href: "/#about" },
+  { label: "About Us", href: "/#about" },
   { label: "Captured Moments", href: "/portfolio" },
   { label: "Services", href: "/#services" },
+  { label: "Blog", href: "/blog" },
   { label: "Testimonials", href: "/#testimonials" },
-  { label: "Contact", href: "/#contact" },
+  { label: "Enquiry", href: "/#contact" },
 ];
 
 const Navbar = () => {
