@@ -8,8 +8,7 @@ import ServicesSection from "@/components/sections/ServicesSection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/Footer";
-import SparkleTrail from "@/components/SparkleTrail";
-import FloatingConfetti from "@/components/FloatingConfetti";
+
 
 const ParallaxSection = ({ children, speed = 0.1 }: { children: React.ReactNode; speed?: number }) => {
   const ref = useRef(null);
