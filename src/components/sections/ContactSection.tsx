@@ -19,7 +19,7 @@ const ContactSection = () => {
             Get In Touch
           </p>
           <h2 className="text-display mt-4 text-4xl font-semibold text-foreground sm:text-5xl">
-            Let's Create Magic
+            Enquiry
           </h2>
           <div className="mx-auto mt-6 h-px w-24 gradient-gold" />
           <p className="text-body mt-8 text-lg text-muted-foreground">
