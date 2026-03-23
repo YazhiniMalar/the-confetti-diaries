@@ -1,9 +1,9 @@
-import wedding1 from "@/assets/wedding-1.jpg";
-import wedding2 from "@/assets/wedding-2.jpg";
-import wedding3 from "@/assets/wedding-3.jpg";
-import wedding4 from "@/assets/wedding-4.jpg";
-import wedding5 from "@/assets/wedding-5.jpg";
-import wedding6 from "@/assets/wedding-6.jpg";
+import wedding1 from "@/assets/wedding-01.jpg";
+import wedding2 from "@/assets/wedding-05.jpg";
+import wedding3 from "@/assets/wedding-10.jpg";
+import wedding4 from "@/assets/wedding-16.jpg";
+import wedding5 from "@/assets/wedding-19.jpg";
+import wedding6 from "@/assets/wedding-24.jpg";
 
 export interface PortfolioItem {
   id: string;
