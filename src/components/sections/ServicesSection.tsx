@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Heart, Camera, Sparkles, Music } from "lucide-react";
+import { Heart, Camera, Sparkles, Music, Truck } from "lucide-react";
 
 const services = [
   {
@@ -22,6 +22,11 @@ const services = [
     icon: Music,
     title: "Entertainment",
     description: "Curated music, performances, and experiences that keep your celebration alive all night.",
+  },
+  {
+    icon: Truck,
+    title: "Logistics",
+    description: "Seamless transport, vendor coordination, and on-ground management so everything runs flawlessly.",
   },
 ];
 
@@ -47,7 +52,7 @@ const ServicesSection = () => {
           <div className="mx-auto mt-6 h-px w-24 gradient-gold" />
         </motion.div>
 
-        <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2">
+        <div className="mt-16 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, i) => (
             <motion.div
               key={service.title}

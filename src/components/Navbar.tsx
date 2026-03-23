@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { Instagram, Youtube, Facebook } from "lucide-react";
 
 const links = [
   { label: "About Us", href: "/#about" },
@@ -27,8 +28,14 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-ivory/80 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <Link to="/" className="text-display text-lg font-bold tracking-[0.15em] text-foreground mr-12">
-          THE CONFETTI DIARIES
+        <Link to="/" className="flex items-center gap-3 mr-12">
+          {/* Logo placeholder */}
+          <div className="h-10 w-10 rounded-full border-2 border-primary/30 bg-primary/10 flex items-center justify-center text-primary text-display text-sm font-bold">
+            TC
+          </div>
+          <span className="text-display text-lg font-bold tracking-[0.15em] text-foreground">
+            THE CONFETTI DIARIES
+          </span>
         </Link>
         {/* Desktop */}
         <div className="hidden gap-8 md:flex">
@@ -93,6 +100,24 @@ const Navbar = () => {
                 </a>
               )
             )}
+
+            {/* Social links */}
+            <div className="mt-4 border-t border-border pt-4">
+              <p className="text-sans text-xs font-medium tracking-[0.2em] text-muted-foreground uppercase mb-3">
+                Let's Get Social
+              </p>
+              <div className="flex gap-4">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Instagram className="h-5 w-5" />
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Youtube className="h-5 w-5" />
+                </a>
+                <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                  <Facebook className="h-5 w-5" />
+                </a>
+              </div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

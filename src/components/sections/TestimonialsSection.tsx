@@ -30,14 +30,32 @@ const testimonials = [
   },
 ];
 
-const CARDS_PER_VIEW = 3;
-const totalPages = Math.ceil(testimonials.length / CARDS_PER_VIEW);
+const useCardsPerView = () => {
+  // Always show 1 card on mobile via CSS, but we need JS for carousel logic
+  const [cardsPerView, setCardsPerView] = useState(() =>
+    typeof window !== "undefined" && window.innerWidth < 640 ? 1 : 3
+  );
+
+  const ref = useRef(false);
+  if (!ref.current && typeof window !== "undefined") {
+    ref.current = true;
+    const onResize = () => setCardsPerView(window.innerWidth < 640 ? 1 : 3);
+    window.addEventListener("resize", onResize);
+  }
+
+  return cardsPerView;
+};
 
 const TestimonialsSection = () => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
   const [page, setPage] = useState(0);
   const [direction, setDirection] = useState(0);
+  const cardsPerView = useCardsPerView();
+  const totalPages = Math.ceil(testimonials.length / cardsPerView);
+
+  // Reset page if it exceeds new total
+  const safePage = page >= totalPages ? 0 : page;
 
   const next = () => {
     setDirection(1);
@@ -50,13 +68,13 @@ const TestimonialsSection = () => {
   };
 
   const currentCards = testimonials.slice(
-    page * CARDS_PER_VIEW,
-    page * CARDS_PER_VIEW + CARDS_PER_VIEW
+    safePage * cardsPerView,
+    safePage * cardsPerView + cardsPerView
   );
 
   return (
     <section id="testimonials" className="py-24 sm:py-32 bg-blush">
-      <div className="container mx-auto max-w-6xl px-6" ref={ref}>
+      <div className="container mx-auto max-w-6xl px-6" ref={sectionRef}>
         <motion.div
           className="text-center"
           initial={{ opacity: 0, y: 50 }}
@@ -76,7 +94,7 @@ const TestimonialsSection = () => {
           <div className="overflow-hidden">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
-                key={page}
+                key={`${safePage}-${cardsPerView}`}
                 custom={direction}
                 initial={{ opacity: 0, x: direction > 0 ? 80 : -80 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -84,7 +102,7 @@ const TestimonialsSection = () => {
                 transition={{ duration: 0.4 }}
                 className="grid grid-cols-1 gap-6 sm:grid-cols-3"
               >
-                {currentCards.map((t, i) => (
+                {currentCards.map((t) => (
                   <div
                     key={t.name}
                     className="rounded-xl bg-background/70 p-8 shadow-romantic backdrop-blur-sm flex flex-col items-center text-center"
@@ -128,11 +146,11 @@ const TestimonialsSection = () => {
               <button
                 key={i}
                 onClick={() => {
-                  setDirection(i > page ? 1 : -1);
+                  setDirection(i > safePage ? 1 : -1);
                   setPage(i);
                 }}
                 className={`h-2 rounded-full transition-all duration-300 ${
-                  i === page ? "w-6 bg-primary" : "w-2 bg-muted-foreground/30"
+                  i === safePage ? "w-6 bg-primary" : "w-2 bg-muted-foreground/30"
                 }`}
                 aria-label={`Go to page ${i + 1}`}
               />
