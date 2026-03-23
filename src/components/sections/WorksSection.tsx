@@ -2,9 +2,9 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import wedding1 from "@/assets/wedding-1.jpg";
-import wedding3 from "@/assets/wedding-3.jpg";
-import wedding5 from "@/assets/wedding-5.jpg";
+import wedding1 from "@/assets/wedding-07.jpg";
+import wedding3 from "@/assets/wedding-12.jpg";
+import wedding5 from "@/assets/wedding-19.jpg";
 
 const works = [
   { img: wedding1, title: "Sarah & James", subtitle: "Golden Hour Romance" },
