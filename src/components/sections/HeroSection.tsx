@@ -69,6 +69,8 @@ const HeroSection = () => {
             src={slides[current].img}
             alt={slides[current].title}
             className="h-full w-full object-cover"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-foreground/40" />
         </motion.div>
