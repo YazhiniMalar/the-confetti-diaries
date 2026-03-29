@@ -29,10 +29,11 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-ivory/80 backdrop-blur-md">
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
         <Link to="/" className="flex items-center gap-3 mr-12">
-          {/* Logo placeholder */}
-          <div className="h-10 w-10 rounded-full border-2 border-primary/30 bg-primary/10 flex items-center justify-center text-primary text-display text-sm font-bold">
-            TC
-          </div>
+          <img
+            src="./src/assets/TCD logo.png"
+            alt="Logo"
+            className="h-10 full object-cover"
+          />
           <span className="text-display text-lg font-bold tracking-[0.15em] text-foreground">
             THE CONFETTI DIARIES
           </span>
